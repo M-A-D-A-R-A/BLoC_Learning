@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "bloc_fuctions",
+            "cwd": "bloc_fuctions",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "bloc_routes",
+            "cwd": "bloc_routes",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "bloc_to_bloc",
+            "cwd": "bloc_to_bloc",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Streams,BLoC&cubit",
+            "cwd": "Streams,BLoC&cubit",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "testing",
+            "cwd": "testing",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

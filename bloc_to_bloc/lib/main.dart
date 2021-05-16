@@ -1,59 +1,47 @@
 import 'package:bloc_fuctions/logic/cubit/counter_cubit.dart';
-import 'package:bloc_fuctions/presentation/screens/home_Screen.dart';
-import 'package:bloc_fuctions/presentation/screens/second_screen.dart';
-import 'package:bloc_fuctions/presentation/screens/third_screen.dart';
+import 'package:bloc_fuctions/presentation/screens/routes/app_router.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'logic/cubit/internet_cubit.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyApp(
+    appRouter: AppRouter(),
+    connectivity: Connectivity(),
+  ));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+class MyApp extends StatelessWidget {
+  final AppRouter appRouter;
+  final Connectivity connectivity;
 
-class _MyAppState extends State<MyApp> {
-  final CounterCubit _counterCubit = CounterCubit();
+  const MyApp({
+    Key key,
+    @required this.appRouter,
+    @required this.connectivity,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+  Widget build(BuildContext myAppContext) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<InternetCubit>(
+          create: (internetCubitContext) =>
+              InternetCubit(connectivity: connectivity),
+        ),
+        BlocProvider<CounterCubit>(
+          create: (counterCubitContext) => CounterCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
-      routes: {
-        '/': (context) => BlocProvider.value(
-              value: _counterCubit,
-              child: HomeScreen(
-                title: 'HomeScreen',
-                color: Colors.blueAccent,
-              ),
-            ),
-        '/second': (context) => BlocProvider.value(
-              value: _counterCubit,
-              child: SecondScreen(
-                title: 'SecondScreen',
-                color: Colors.redAccent,
-              ),
-            ),
-        '/third': (context) => BlocProvider.value(
-              value: _counterCubit,
-              child: ThirdScreen(
-                title: 'ThirdScreen',
-                color: Colors.greenAccent,
-              ),
-            ),
-      },
     );
-  }
-
-  @override
-  void dispose() {
-    _counterCubit.close();
-    super.dispose();
   }
 }
