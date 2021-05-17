@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SecondScreen extends StatefulWidget {
-  SecondScreen({Key key, this.title,this.color}) : super(key: key);
+  SecondScreen({Key key, this.title, this.color}) : super(key: key);
 
   final String title;
   final Color color;
@@ -17,6 +17,7 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.color,
         title: Text(widget.title),
       ),
       body: Center(
@@ -75,18 +76,20 @@ class _SecondScreenState extends State<SecondScreen> {
               children: [
                 FloatingActionButton(
                   heroTag: Text('${widget.title}'),
+                  backgroundColor: widget.color,
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
-                    // context.bloc < CounterCubit().decrement();
+                    // BlocProvider.of<CounterCubit>(context).decrement();
+                    context.read<CounterCubit>().decrement();
                   },
                   tooltip: 'Decrement',
                   child: Icon(Icons.remove),
                 ),
                 FloatingActionButton(
-                  heroTag: Text('${widget.title} #2'),
+                  backgroundColor: widget.color,
+                  heroTag: Text('${widget.title} 2nd'),
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).incremnet();
-                    // context.bloc<ConunterCubit>().increment();
+                    // BlocProvider.of<CounterCubit>(context).increment();
+                    context.read<CounterCubit>().incremnet();
                   },
                   tooltip: 'Increment',
                   child: Icon(Icons.add),
@@ -97,8 +100,15 @@ class _SecondScreenState extends State<SecondScreen> {
               height: 24,
             ),
             MaterialButton(
-              color: widget.color,
-              onPressed: (){},child: Text('Go to second Screen'),),
+              color: Colors.greenAccent,
+              child: Text(
+                'Go to Third Screen',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/third');
+              },
+            ),
           ],
         ),
       ),
